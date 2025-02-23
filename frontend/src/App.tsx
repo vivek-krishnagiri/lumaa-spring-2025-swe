@@ -14,7 +14,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Register />} /> {/* Register is default now */}
+        <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
       </Routes>
