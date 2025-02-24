@@ -1,119 +1,207 @@
-# Full-Stack Coding Challenge
+# **Full-Stack Coding Challenge: Task Management App**
 
-**Deadline**: Sunday, Feb 23th 11:59 pm PST
-
----
-
-## Overview
-
-Create a “Task Management” application with **React + TypeScript** (frontend), **Node.js** (or **Nest.js**) (backend), and **PostgreSQL** (database). The application should:
-
-1. **Register** (sign up) and **Log in** (sign in) users.
-2. After logging in, allow users to:
-   - **View a list of tasks**.
-   - **Create a new task**.
-   - **Update an existing task** (e.g., mark complete, edit).
-   - **Delete a task**.
-
-Focus on **correctness**, **functionality**, and **code clarity** rather than visual design.  
-This challenge is intended to be completed within ~3 hours, so keep solutions minimal yet functional.
+## **Deadline**: Sunday, Feb 23th 11:59 pm PST
 
 ---
 
-## Requirements
+## **🚀 Overview**
 
-### 1. Authentication
+This is a **Task Management** application built with **React + TypeScript** (frontend), **Node.js** (backend), and **PostgreSQL** (database).  
+It allows users to:
 
-- **User Model**:
-  - `id`: Primary key
-  - `username`: Unique string
-  - `password`: Hashed string
-- **Endpoints**:
-  - `POST /auth/register` – Create a new user
-  - `POST /auth/login` – Login user, return a token (e.g., JWT)
-- **Secure the Tasks Routes**: Only authenticated users can perform task operations.  
-  - **Password Hashing**: Use `bcrypt` or another hashing library to store passwords securely.
-  - **Token Verification**: Verify the token (JWT) on each request to protected routes.
+1. **Register** (sign up) and **Log in** (sign in).
+2. **Manage Tasks** (CRUD operations):
+   - View a list of tasks.
+   - Create a new task.
+   - Update an existing task (e.g., mark as complete, edit).
+   - Delete a task.
 
-### 2. Backend (Node.js or Nest.js)
-
-- **Tasks CRUD**:  
-  - `GET /tasks` – Retrieve a list of tasks (optionally filtered by user).  
-  - `POST /tasks` – Create a new task.  
-  - `PUT /tasks/:id` – Update a task (e.g., mark as complete, edit text).  
-  - `DELETE /tasks/:id` – Delete a task.
-- **Task Model**:
-  - `id`: Primary key
-  - `title`: string
-  - `description`: string (optional)
-  - `isComplete`: boolean (default `false`)
-  - _(Optional)_ `userId` to link tasks to the user who created them
-- **Database**: PostgreSQL
-  - Provide instructions/migrations to set up:
-    - `users` table (with hashed passwords)
-    - `tasks` table
-- **Setup**:
-  - `npm install` to install dependencies
-  - `npm run start` (or `npm run dev`) to run the server
-  - Document any environment variables (e.g., database connection string, JWT secret)
-
-### 3. Frontend (React + TypeScript)
-
-- **Login / Register**:
-  - Simple forms for **Register** and **Login**.
-  - Store JWT (e.g., in `localStorage`) upon successful login.
-  - If not authenticated, the user should not see the tasks page.
-- **Tasks Page**:
-  - Fetch tasks from `GET /tasks` (including auth token in headers).
-  - Display the list of tasks.
-  - Form to create a new task (`POST /tasks`).
-  - Buttons/fields to update a task (`PUT /tasks/:id`).
-  - Button to delete a task (`DELETE /tasks/:id`).
-- **Navigation**:
-  - Show `Login`/`Register` if not authenticated.
-  - Show `Logout` if authenticated.
-- **Setup**:
-  - `npm install` then `npm start` (or `npm run dev`) to run.
-  - Document how to point the frontend at the backend (e.g., `.env` file, base URL).
+💡 **Focus on correctness, functionality, and code clarity** rather than visual design.
 
 ---
 
-## Deliverables
+## **1️⃣ Authentication**
 
-1. **Fork the Public Repository**: **Fork** this repo into your own GitHub account.
-2. **Implement Your Solution** in the forked repository. Make sure you're README file has:
-   - Steps to set up the database (migrations, environment variables).
-   - How to run the backend.
-   - How to run the frontend.
-   - Any relevant notes on testing.
-   - Salary Expectations per month (Mandatory)
-3. **Short Video Demo**: Provide a link (in a `.md` file in your forked repo) to a brief screen recording showing:
-   - Registering a user
-   - Logging in
-   - Creating, updating, and deleting tasks
-4. **Deadline**: Submissions are due **Sunday, Feb 23th 11:59 pm PST**.
+### **User Model**
+- `id`: Primary key
+- `username`: Unique string
+- `password`: Hashed string
 
-> **Note**: Please keep your solution minimal. The entire project is intended to be completed in around 3 hours. Focus on core features (registration, login, tasks CRUD) rather than polished UI or extra features.
+### **Endpoints**
+| HTTP Method | Endpoint           | Description |
+|------------|-------------------|-------------|
+| `POST`     | `/auth/register`  | Create a new user |
+| `POST`     | `/auth/login`     | Login user, return a JWT token |
+
+### **Security Features**
+- **JWT Authentication** → Secure task routes (only authenticated users can manage tasks).
+- **Password Hashing** → Uses `bcrypt` for secure password storage.
+- **Token Verification** → Middleware checks JWT for all protected routes.
 
 ---
 
-## Evaluation Criteria
+## **2️⃣ Backend (Node.js + PostgreSQL)**
 
-1. **Functionality**  
-   - Does registration and login work correctly (with password hashing)?
-   - Are tasks protected by authentication?
-   - Does the tasks CRUD flow work end-to-end?
+### **Task Model**
+- `id`: Primary key
+- `title`: string
+- `description`: string (optional)
+- `isComplete`: boolean (default `false`)
+- `userId`: Foreign key linking the task to its owner
 
-2. **Code Quality**  
-   - Is the code structured logically and typed in TypeScript?
-   - Are variable/function names descriptive?
+### **Task CRUD API**
+| HTTP Method | Endpoint         | Description |
+|------------|-----------------|-------------|
+| `GET`      | `/tasks`        | Retrieve all tasks (filtered by user) |
+| `POST`     | `/tasks`        | Create a new task |
+| `PUT`      | `/tasks/:id`    | Update a task (mark complete, edit title/desc) |
+| `DELETE`   | `/tasks/:id`    | Delete a task |
 
-3. **Clarity**  
-   - Is the `README.md` (in your fork) clear and detailed about setup steps?
-   - Easy to run and test?
+### **Database Setup (PostgreSQL)**
 
-4. **Maintainability**  
-   - Organized logic (controllers/services, etc.)
-   - Minimal hard-coded values
+#### **Step 1: Install PostgreSQL (If Not Installed)**
+```bash
+sudo apt update && sudo apt install postgresql postgresql-contrib
+```
 
-Good luck, and we look forward to your submission!
+#### **Step 2: Create the Database**
+Start PostgreSQL:
+```bash
+psql postgres
+```
+Then, create the database:
+```sql
+CREATE DATABASE taskmanager;
+```
+
+#### **Step 3: Create Tables**
+Switch to the database:
+```sql
+\c taskmanager;
+```
+Run the following queries:
+
+#### **Users Table**
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+```
+
+#### **Tasks Table**
+```sql
+CREATE TABLE tasks (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    isComplete BOOLEAN DEFAULT false,
+    userId INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
+---
+
+## **3️⃣ Environment Variables (`.env`)**
+Create a `.env` file inside the **backend/** folder:
+```ini
+DATABASE_URL=postgresql://your_username:your_password@localhost:5432/taskmanager
+JWT_SECRET=your_secret_key
+PORT=5001
+```
+💡 **Replace `your_username` and `your_password` with your actual PostgreSQL credentials.**
+
+---
+
+## **4️⃣ How to Run the Backend**
+#### **Step 1: Navigate to Backend Folder**
+```bash
+cd backend
+```
+
+#### **Step 2: Install Dependencies**
+```bash
+npm install
+```
+
+#### **Step 3: Start the Backend Server**
+```bash
+npm run dev
+```
+👉 **Server should start on:** `http://localhost:5001/`
+
+---
+
+## **5️⃣ How to Run the Frontend**
+#### **Step 1: Navigate to Frontend Folder**
+```bash
+cd frontend
+```
+
+#### **Step 2: Install Dependencies**
+```bash
+npm install
+```
+
+#### **Step 3: Start the Frontend**
+```bash
+npm run dev
+```
+👉 **Frontend should open at:** `http://localhost:5173/`
+
+---
+
+## **6️⃣ Testing API (cURL Commands)**
+Manually test API endpoints using **cURL**.
+
+#### **User Registration**
+```bash
+curl -X POST http://localhost:5001/auth/register \
+-H "Content-Type: application/json" \
+-d '{"username": "testuser1", "password": "password123"}'
+```
+
+#### **User Login (Get JWT Token)**
+```bash
+curl -X POST http://localhost:5001/auth/login \
+-H "Content-Type: application/json" \
+-d '{"username": "testuser1", "password": "password123"}'
+```
+👉 **Copy the token from the response.**
+
+#### **Create a Task**
+```bash
+curl -X POST http://localhost:5001/tasks \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_JWT_TOKEN_HERE" \
+-d '{"title": "Finish Project", "description": "Work on the final project report"}'
+```
+
+#### **Get All Tasks**
+```bash
+curl -X GET http://localhost:5001/tasks \
+-H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
+```
+
+#### **Update a Task**
+```bash
+curl -X PUT http://localhost:5001/tasks/1 \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer YOUR_JWT_TOKEN_HERE" \
+-d '{"title": "Updated Task", "description": "Updated task description", "isComplete": true}'
+```
+
+#### **Delete a Task**
+```bash
+curl -X DELETE http://localhost:5001/tasks/1 \
+-H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
+```
+
+---
+
+## **7️⃣ Salary Expectations**
+💰 **Expected Salary:** **$7,500 per month**
+
+
+
